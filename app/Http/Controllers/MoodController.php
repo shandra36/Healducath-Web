@@ -9,12 +9,19 @@ use Illuminate\Support\Facades\Auth;
 
 class MoodController extends Controller
 {
+    /**
+     * Tampilkan halaman mood
+     */
     public function index()
     {
         $moods = Mood::all();
-        return view('mood.index', compact('moods'));
+
+        return view('mood.mood-checkin', compact('moods'));
     }
 
+    /**
+     * Simpan mood user
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -27,6 +34,7 @@ class MoodController extends Controller
             'logged_at' => now()
         ]);
 
-        return redirect()->route('study.start');
+        // lanjut ke halaman study (focus timer)
+        return redirect('/study');
     }
 }

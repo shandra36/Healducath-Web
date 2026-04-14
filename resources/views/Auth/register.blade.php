@@ -15,6 +15,13 @@
 Create Account
 </h2>
 
+<!-- ERROR -->
+@if ($errors->any())
+<div class="mb-4 text-red-500 text-sm">
+    {{ $errors->first() }}
+</div>
+@endif
+
 <form method="POST" action="/register">
 @csrf
 
@@ -42,7 +49,8 @@ class="w-full border rounded-lg px-4 py-2 mt-1 focus:ring-2 focus:ring-emerald-4
 class="w-full border rounded-lg px-4 py-2 mt-1 focus:ring-2 focus:ring-emerald-400">
 </div>
 
-<button class="w-full bg-emerald-500 text-white py-2 rounded-lg hover:bg-emerald-600 transition">
+<button type="submit"
+class="w-full bg-emerald-500 text-white py-2 rounded-lg hover:bg-emerald-600 transition">
 Register
 </button>
 

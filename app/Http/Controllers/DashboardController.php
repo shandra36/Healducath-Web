@@ -19,10 +19,10 @@ class DashboardController extends Controller
         $avgStudy = StudySession::where('user_id',$user->id)
             ->avg('study_duration');
 
-        return view('dashboard', compact(
-            'totalSessions',
-            'totalStudyTime',
-            'avgStudy'
+        return view('dashboard.wellbeing-dashboard', compact(
+        'totalSessions',
+        'totalStudyTime',
+        'avgStudy'
         ));
     }
 }

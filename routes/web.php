@@ -19,85 +19,58 @@ use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
-| LANDING PAGE
+| LANDING PAGE (PUBLIC)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-
+Route::view('/', 'welcome')->name('welcome');
 
 /*
 |--------------------------------------------------------------------------
-| AUTH
+| AUTH (GUEST ONLY)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::middleware('guest')->group(function () {
 
-Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+    // LOGIN
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
 
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    // REGISTER
+    Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
 
-/*
-|--------------------------------------------------------------------------
-| FORGOT PASSWORD
-|--------------------------------------------------------------------------
-*/
+    // FORGOT PASSWORD
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+        ->name('password.request');
 
-Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
-    ->name('password.request');
-
-Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])
-    ->name('password.email');
-
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])
+        ->name('password.email');
+});
 
 /*
 |--------------------------------------------------------------------------
-| PROTECTED ROUTES (HARUS LOGIN)
+| AUTHENTICATED USER
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('auth')->group(function () {
 
-    /*
-    |----------------------------------------------------------------------
-    | MOOD CHECK-IN
-    |----------------------------------------------------------------------
-    */
+    // LOGOUT
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+    // DASHBOARD (MAIN PAGE)
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // MOOD
     Route::get('/moods', [MoodController::class, 'index'])->name('moods.index');
-    Route::post('/mood', [MoodController::class, 'store'])->name('moods.store');
+    Route::post('/moods', [MoodController::class, 'store'])->name('moods.store');
 
-
-    /*
-    |----------------------------------------------------------------------
-    | STUDY SESSION
-    |----------------------------------------------------------------------
-    */
-
+    // STUDY
     Route::get('/study', [StudySessionController::class, 'start'])->name('study.start');
     Route::post('/study', [StudySessionController::class, 'store'])->name('study.store');
 
-
-    /*
-    |----------------------------------------------------------------------
-    | BREAK ACTIVITY
-    |----------------------------------------------------------------------
-    */
-
+    // BREAK
     Route::get('/break', [BreakActivityController::class, 'random'])->name('break.random');
-
-
-    /*
-    |----------------------------------------------------------------------
-    | WELLBEING DASHBOARD
-    |----------------------------------------------------------------------
-    */
-
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 });
