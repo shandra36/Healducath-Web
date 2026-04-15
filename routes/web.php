@@ -16,10 +16,11 @@ use App\Http\Controllers\MoodController;
 use App\Http\Controllers\StudySessionController;
 use App\Http\Controllers\BreakActivityController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
-| LANDING PAGE (PUBLIC)
+| LANDING PAGE
 |--------------------------------------------------------------------------
 */
 
@@ -27,21 +28,18 @@ Route::view('/', 'welcome')->name('welcome');
 
 /*
 |--------------------------------------------------------------------------
-| AUTH (GUEST ONLY)
+| AUTH (GUEST)
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('guest')->group(function () {
 
-    // LOGIN
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
 
-    // REGISTER
     Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
 
-    // FORGOT PASSWORD
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
         ->name('password.request');
 
@@ -51,7 +49,7 @@ Route::middleware('guest')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| AUTHENTICATED USER
+| AUTH (LOGIN REQUIRED)
 |--------------------------------------------------------------------------
 */
 
@@ -60,7 +58,7 @@ Route::middleware('auth')->group(function () {
     // LOGOUT
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    // DASHBOARD (MAIN PAGE)
+    // DASHBOARD
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // MOOD
@@ -73,4 +71,12 @@ Route::middleware('auth')->group(function () {
 
     // BREAK
     Route::get('/break', [BreakActivityController::class, 'random'])->name('break.random');
+
+    // ✅ TASK (FITUR KAMU)
+    Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+    Route::post('/tasks/{id}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
+    Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.delete');
+    Route::get('/focus/{task}', [StudySessionController::class, 'focus'])->name('focus.task');
+    Route::get('/tasks/{id}/start', [TaskController::class, 'start'])->name('tasks.start');
 });
