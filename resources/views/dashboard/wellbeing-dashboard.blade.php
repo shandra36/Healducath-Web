@@ -12,8 +12,6 @@
 
 <style>
 
-/* animated gradient background */
-
 @keyframes gradientMove{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
@@ -26,44 +24,31 @@ background-size:400% 400%;
 animation:gradientMove 15s ease infinite;
 }
 
-/* floating icon */
-
-@keyframes float{
-0%{transform:translateY(0px);}
-50%{transform:translateY(-10px);}
-100%{transform:translateY(0px);}
-}
-
-.animate-float{
-animation:float 5s ease-in-out infinite;
-}
-
-/* card hover */
-
 .card{
-transition:all .3s ease;
+transition:all .25s ease;
 }
 
 .card:hover{
-transform:translateY(-6px) scale(1.02);
-box-shadow:0 20px 40px rgba(0,0,0,0.12);
+transform:translateY(-4px);
+box-shadow:0 18px 35px rgba(0,0,0,0.12);
 }
-
-/* mood button */
 
 .mood{
 transition:.25s;
 }
 
 .mood:hover{
-transform:scale(1.08);
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+transform:scale(1.05);
+box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+.hero-bg{
+background:linear-gradient(135deg,#e6f7f1,#cdeee5);
 }
 
 </style>
 
 </head>
-
 
 <body class="bg-animate min-h-screen">
 
@@ -72,48 +57,38 @@ box-shadow:0 10px 25px rgba(0,0,0,0.1);
 @endif
 
 
-<!-- FLOATING ICON BACKGROUND -->
-
-<div class="absolute top-32 left-10 text-5xl opacity-20 animate-float">📚</div>
-<div class="absolute bottom-20 right-10 text-5xl opacity-20 animate-float">🧠</div>
-
-
-
-<!-- NAVBAR -->
-
 <header class="bg-gradient-to-r from-emerald-600 to-green-500 shadow-lg">
 
-<div class="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center text-white">
+<div class="max-w-7xl mx-auto px-8 py-3 flex justify-between items-center text-white">
 
 <div class="flex items-center gap-3">
 
-<div class="text-2xl animate-pulse">💚</div>
+<img src="{{ asset('images/healducat.jpeg') }}"
+class="w-9 h-9 rounded-lg shadow">
 
-<h1 class="text-xl font-bold">
+<h1 class="text-xl font-bold tracking-wide">
 Healducat
 </h1>
 
 </div>
 
-<nav class="flex gap-8 font-medium">
+<nav class="flex gap-8 font-medium text-sm">
 
 <a href="/dashboard" class="border-b-2 border-white pb-1">
 Dashboard
 </a>
 
-<a href="/tasks" class="hover:opacity-80 transition">
-Tugas
+<a href="/tasks">Tugas</a>
+
+<a href="{{ route('study.start') }}">
+Timer
 </a>
 
-<a href="/moods" class="hover:opacity-80 transition">
-Timer Belajar
+<a href="{{ route('break.random') }}">
+Break
 </a>
 
-<a href="/break" class="hover:opacity-80 transition">
-Waktu Istirahat
-</a>
-
-<a href="/progress" class="hover:opacity-80 transition">
+<a href="/progress">
 Progres
 </a>
 
@@ -122,7 +97,7 @@ Progres
 <form method="POST" action="/logout">
 @csrf
 <button class="bg-white text-emerald-600 px-4 py-1 rounded-lg font-semibold hover:scale-105 transition">
-Keluar
+Logout
 </button>
 </form>
 
@@ -131,41 +106,58 @@ Keluar
 </header>
 
 
+<section class="hero-bg">
 
-<!-- MAIN -->
-
-<div class="max-w-7xl mx-auto px-8 py-10 space-y-8">
-
-
-<!-- WELCOME -->
-
-<div class="bg-white p-6 rounded-2xl shadow-lg flex justify-between items-center card">
+<div class="max-w-7xl mx-auto px-8 py-16 grid md:grid-cols-2 items-center gap-10">
 
 <div>
 
-<h2 class="text-2xl font-semibold">
-Selamat datang kembali, {{ auth()->user()->name }} 👋
-</h2>
+<h1 class="text-4xl md:text-5xl font-bold text-emerald-700 leading-tight">
+Belajar Lebih Fokus <br>
+& Produktif
+</h1>
 
-<p class="text-gray-500">
-{{ now()->format('l, d M Y') }}
+<p class="text-gray-600 mt-4">
+Selamat datang kembali, ayo capai target belajarmu hari ini
 </p>
 
-<p class="text-emerald-600 mt-1 font-medium">
-Siap meningkatkan fokus belajar hari ini 🚀
-</p>
+<div class="flex gap-4 mt-6">
+
+<a href="{{ route('study.start') }}"
+class="bg-emerald-500 text-white px-6 py-3 rounded-xl shadow hover:bg-emerald-600 transition">
+
+Mulai Belajar
+
+</a>
+
+<a href="/progress"
+class="bg-white px-6 py-3 rounded-xl shadow hover:bg-gray-100 transition">
+
+Lihat Progress
+
+</a>
 
 </div>
 
-<div class="text-5xl animate-float">
-📚
+</div>
+
+<div class="flex justify-center">
+
+<img src="{{ asset('images/dashboard.png') }}"
+class="w-[420px]">
+
 </div>
 
 </div>
 
+</section>
 
 
-<!-- MOOD CHECK -->
+<div class="max-w-7xl mx-auto px-8 py-10 grid lg:grid-cols-3 gap-6">
+
+
+<div class="lg:col-span-2 space-y-6">
+
 
 <div class="bg-white p-6 rounded-2xl shadow card">
 
@@ -176,20 +168,20 @@ Bagaimana kondisi belajar kamu hari ini?
 <form action="{{ route('study.startSession') }}" method="POST">
 @csrf
 
-<div class="flex gap-4">
+<div class="grid grid-cols-3 gap-3">
 
 <button type="submit" name="mood" value="semangat"
-class="mood px-6 py-3 rounded-xl bg-green-100">
+class="mood px-4 py-3 rounded-xl bg-green-100 text-sm">
 🙂 Sangat Semangat
 </button>
 
 <button type="submit" name="mood" value="biasa"
-class="mood px-6 py-3 rounded-xl bg-yellow-100">
+class="mood px-4 py-3 rounded-xl bg-yellow-100 text-sm">
 😐 Biasa Saja
 </button>
 
 <button type="submit" name="mood" value="lelah"
-class="mood px-6 py-3 rounded-xl bg-blue-100">
+class="mood px-4 py-3 rounded-xl bg-blue-100 text-sm">
 😴 Sedikit Lelah
 </button>
 
@@ -200,46 +192,94 @@ class="mood px-6 py-3 rounded-xl bg-blue-100">
 </div>
 
 
+<div class="bg-white rounded-2xl shadow p-6 card">
 
-<!-- STATISTIK -->
+<div class="flex justify-between items-center mb-4">
 
-<div class="grid md:grid-cols-3 gap-6">
+<h3 class="text-lg font-semibold">
+Tugas Hari Ini
+</h3>
 
-<div class="bg-white p-6 rounded-2xl shadow card">
+<a href="/tasks"
+class="bg-emerald-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-emerald-600 transition">
+Tambah +
+</a>
 
-<h3 class="text-gray-500">Waktu Belajar</h3>
+</div>
 
-<p class="text-3xl font-bold text-emerald-600">
+<div class="space-y-3">
+
+@forelse($todayTasks ?? [] as $task)
+
+<div class="p-4 rounded-xl bg-gray-50 hover:bg-emerald-50 transition flex justify-between items-center">
+
+<div>
+
+<p class="font-medium">
+{{ $task->title }}
+</p>
+
+<p class="text-gray-400 text-xs">
+Deadline: {{ $task->deadline }}
+</p>
+
+</div>
+
+<a href="{{ route('focus.task', $task->id) }}"
+class="bg-emerald-500 text-white px-3 py-1 rounded-lg text-xs hover:scale-105 transition">
+Mulai
+</a>
+
+</div>
+
+@empty
+
+<p class="text-gray-400 text-center py-4 text-sm">
+Tidak ada tugas hari ini 🎉
+</p>
+
+@endforelse
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="space-y-6">
+
+<div class="bg-white rounded-2xl shadow p-5 card">
+
+<h3 class="text-gray-500 text-sm">
+Waktu Belajar
+</h3>
+
+<p class="text-3xl font-bold text-emerald-600 mt-1">
 {{ $totalStudyTime }} menit
 </p>
 
-<p class="text-gray-400 text-sm">
-Total belajar
-</p>
-
 </div>
 
+<div class="bg-white rounded-2xl shadow p-5 card">
 
-<div class="bg-white p-6 rounded-2xl shadow card">
+<h3 class="text-gray-500 text-sm">
+Tugas Selesai
+</h3>
 
-<h3 class="text-gray-500">Tugas Selesai</h3>
-
-<p class="text-3xl font-bold text-emerald-600">
+<p class="text-3xl font-bold text-emerald-600 mt-1">
 {{ $totalSessions }}
 </p>
 
-<p class="text-gray-400 text-sm">
-Total sesi belajar
-</p>
-
 </div>
 
+<div class="bg-white rounded-2xl shadow p-5 card">
 
-<div class="bg-white p-6 rounded-2xl shadow card">
+<h3 class="text-gray-500 text-sm">
+Tingkat Fokus
+</h3>
 
-<h3 class="text-gray-500">Tingkat Fokus</h3>
-
-<p class="text-3xl font-bold text-emerald-600">
+<p class="text-3xl font-bold text-emerald-600 mt-1">
 {{ $avgStudy ? round($avgStudy) : 0 }}%
 </p>
 
@@ -253,104 +293,10 @@ style="width: {{ $avgStudy ? round($avgStudy) : 0 }}%">
 
 </div>
 
-</div>
+<div class="bg-white rounded-2xl shadow p-5 card">
 
-
-
-<!-- TUGAS -->
-
-<div class="bg-white rounded-2xl shadow p-6 card">
-
-<div class="flex justify-between items-center mb-5">
-
-<h3 class="text-lg font-semibold">
-Tugas Hari Ini
-</h3>
-
-<a href="/tasks"
-class="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition">
-
-Tambah Tugas +
-
-</a>
-
-</div>
-
-
-<div class="space-y-3">
-
-@forelse($todayTasks ?? [] as $task)
-
-<div class="p-4 rounded-lg bg-gray-50 hover:bg-emerald-50 transition flex justify-between">
-
-<div>
-
-<p class="font-medium">
-{{ $task->title }}
-</p>
-
-<p class="text-gray-400 text-sm">
-Deadline: {{ $task->deadline }}
-</p>
-
-</div>
-
-<a href="/moods"
-class="bg-emerald-500 text-white px-3 py-1 rounded-lg text-sm hover:scale-105 transition">
-
-Mulai
-
-</a>
-
-</div>
-
-@empty
-
-<p class="text-gray-400 text-center py-4">
-Tidak ada tugas hari ini 🎉
-</p>
-
-@endforelse
-
-</div>
-
-</div>
-
-
-
-<!-- QUICK STUDY -->
-
-<div class="bg-emerald-500 text-white p-6 rounded-2xl shadow flex justify-between items-center card">
-
-<div>
-
-<h3 class="text-lg font-semibold">
-Mulai Sesi Belajar
-</h3>
-
-<p class="text-sm opacity-80">
-Mulai sesi fokus selama 25 menit
-</p>
-
-</div>
-
-<a href="/moods"
-class="bg-white text-emerald-600 px-4 py-2 rounded-lg font-semibold hover:scale-105 transition">
-
-Mulai Belajar
-
-</a>
-
-</div>
-
-
-
-<!-- CHART -->
-
-<div class="bg-white p-6 rounded-2xl shadow card">
-
-<h3 class="text-lg font-semibold mb-4">
-Progres Belajar Mingguan
+<h3 class="text-sm font-semibold mb-3">
+Progres Belajar
 </h3>
 
 <canvas id="studyChart"></canvas>
@@ -359,6 +305,7 @@ Progres Belajar Mingguan
 
 </div>
 
+</div>
 
 
 <script>
@@ -383,10 +330,6 @@ fill:true
 options:{
 responsive:true,
 plugins:{legend:{display:false}},
-animation:{
-duration:1500,
-easing:'easeOutQuart'
-},
 scales:{y:{beginAtZero:true}}
 }
 

@@ -258,9 +258,15 @@ Stay focused. Small progress is still progress.
 
 </div>
 
+<form id="studyForm" method="POST" action="{{ route('study.store') }}">
+@csrf
 
+<input type="hidden" name="study_duration" id="study_duration">
+<input type="hidden" name="break_duration" id="break_duration">
+<input type="hidden" name="session_start" id="session_start">
+<input type="hidden" name="session_end" id="session_end">
 
-<!-- SCRIPT -->
+</form>
 
 <script>
 
@@ -268,6 +274,8 @@ let studyDuration = {{ $studyDuration ?? 25 }};
 let duration = studyDuration * 60;
 let time = duration;
 let timerInterval = null;
+
+let sessionStart = new Date().toISOString();
 
 const quotes = [
 
@@ -357,10 +365,12 @@ breakTime = 900;
 
 alert("Session selesai 🎉");
 
-/* kirim waktu break ke halaman break */
+document.getElementById("study_duration").value = studyDuration;
+document.getElementById("break_duration").value = breakTime / 60;
+document.getElementById("session_start").value = sessionStart;
+document.getElementById("session_end").value = new Date().toISOString();
 
-window.location.href="/break?time=" + breakTime;
-
+document.getElementById("studyForm").submit();
 }
 
 },1000);

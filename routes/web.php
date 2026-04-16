@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
+use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\MoodController;
 use App\Http\Controllers\StudySessionController;
 use App\Http\Controllers\BreakController;
@@ -47,6 +48,7 @@ Route::middleware('guest')->group(function () {
         ->name('password.email');
 });
 
+
 /*
 |--------------------------------------------------------------------------
 | AUTH (LOGIN REQUIRED)
@@ -63,6 +65,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+
     /*
     |--------------------------------------------------------------------------
     | DASHBOARD
@@ -70,6 +73,7 @@ Route::middleware('auth')->group(function () {
     */
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -80,36 +84,43 @@ Route::middleware('auth')->group(function () {
     Route::get('/moods', [MoodController::class, 'index'])->name('moods.index');
     Route::post('/moods', [MoodController::class, 'store'])->name('moods.store');
 
-    /*
-    |--------------------------------------------------------------------------
-    | START STUDY SESSION (SMART LOGIC)
-    |--------------------------------------------------------------------------
-    */
 
-    Route::post('/start-session', [StudySessionController::class, 'startSession'])
-        ->name('study.startSession');
+/*
+|--------------------------------------------------------------------------
+| START STUDY SESSION (SMART SYSTEM)
+|--------------------------------------------------------------------------
+*/
 
-    /*
-    |--------------------------------------------------------------------------
-    | STUDY TIMER
-    |--------------------------------------------------------------------------
-    */
-    Route::post('/start-session', [StudySessionController::class, 'startSession'])
+Route::post('/start-session', [StudySessionController::class, 'startSession'])
     ->name('study.startSession');
 
-    Route::get('/study', [StudySessionController::class, 'start'])->name('study.start');
-    Route::post('/study', [StudySessionController::class, 'store'])->name('study.store');
+/*
+|--------------------------------------------------------------------------
+| STUDY TIMER
+|--------------------------------------------------------------------------
+*/
 
-    Route::get('/focus/{task}', [StudySessionController::class, 'focus'])
-        ->name('focus.task');
+// Timer dari navbar
+Route::get('/study', [StudySessionController::class, 'start'])
+    ->name('study.start');
 
+// Simpan study session setelah timer selesai
+Route::post('/study', [StudySessionController::class, 'store'])
+    ->name('study.store');
+
+// Timer dari task
+Route::get('/focus/{task}', [StudySessionController::class, 'focus'])
+    ->name('focus.task');
+    
     /*
     |--------------------------------------------------------------------------
     | BREAK TIME
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/break', [BreakController::class, 'random'])->name('break.random');
+    Route::get('/break', [BreakController::class, 'random'])
+        ->name('break.random');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -118,6 +129,7 @@ Route::middleware('auth')->group(function () {
     */
 
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 
     Route::post('/tasks/{id}/complete', [TaskController::class, 'complete'])
@@ -126,8 +138,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])
         ->name('tasks.delete');
 
-    Route::get('/tasks/{id}/start', [TaskController::class, 'start'])
-        ->name('tasks.start');
 
     /*
     |--------------------------------------------------------------------------
@@ -135,8 +145,7 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/progress', function () {
-        return view('progress.progress');
-    })->name('progress');
-
-});
+Route::get('/progress', [ProgressController::class, 'index'])
+    ->name('progress');
+    
+    });
