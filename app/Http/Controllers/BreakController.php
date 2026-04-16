@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\BreakActivity;
 
-class BreakActivityController extends Controller
+class BreakController extends Controller
 {
     public function random()
     {
         $activity = BreakActivity::inRandomOrder()->first();
 
-        return response()->json($activity);
+        return view('break.break-activity', compact('activity'));
     }
 }

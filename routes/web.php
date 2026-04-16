@@ -14,7 +14,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 
 use App\Http\Controllers\MoodController;
 use App\Http\Controllers\StudySessionController;
-use App\Http\Controllers\BreakActivityController;
+use App\Http\Controllers\BreakController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TaskController;
 
@@ -70,13 +70,27 @@ Route::middleware('auth')->group(function () {
     Route::post('/study', [StudySessionController::class, 'store'])->name('study.store');
 
     // BREAK
-    Route::get('/break', [BreakActivityController::class, 'random'])->name('break.random');
+    Route::get('/break', [BreakController::class, 'random'])->name('break.random');
 
-    // ✅ TASK (FITUR KAMU)
+    // TASK
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
-    Route::post('/tasks/{id}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
-    Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.delete');
-    Route::get('/focus/{task}', [StudySessionController::class, 'focus'])->name('focus.task');
-    Route::get('/tasks/{id}/start', [TaskController::class, 'start'])->name('tasks.start');
+
+    Route::post('/tasks/{id}/complete', [TaskController::class, 'complete'])
+        ->name('tasks.complete');
+
+    Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])
+        ->name('tasks.delete');
+
+    Route::get('/tasks/{id}/start', [TaskController::class, 'start'])
+        ->name('tasks.start');
+
+    Route::get('/focus/{task}', [StudySessionController::class, 'focus'])
+        ->name('focus.task');
+
+    // PROGRESS PAGE
+    Route::get('/progress', function () {
+        return view('progress.progress');
+    })->name('progress');
+
 });

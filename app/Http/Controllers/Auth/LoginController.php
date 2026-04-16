@@ -48,7 +48,7 @@ class LoginController extends Controller
 
     /**
      * Handle logout
-     */
+     */ 
     public function logout(Request $request)
     {
         Auth::logout();

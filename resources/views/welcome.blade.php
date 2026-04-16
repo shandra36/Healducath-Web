@@ -76,7 +76,7 @@ Boost Your Study Success <br>
 </h1>
 
 <p class="text-gray-600 text-lg mb-8">
-Sahabat belajar pintar anti-burnout. Fokus, sehat, dan produktif setiap hari 🚀
+Sahabat belajar pintar anti-burnout. Fokus, sehat, dan produktif setiap hari 
 </p>
 
 <div class="flex gap-4">
@@ -107,7 +107,7 @@ class="w-[420px]">
 <section id="features" class="mt-24 px-10">
 
 <h2 class="text-3xl font-bold text-center mb-12">
-Fitur Utama Healducat 🚀
+Fitur Utama Healducat 
 </h2>
 
 <div class="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">

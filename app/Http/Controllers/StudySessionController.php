@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Task;
 use App\Models\StudySession;
 use Illuminate\Http\Request;
@@ -10,17 +9,23 @@ use Illuminate\Support\Facades\Auth;
 
 class StudySessionController extends Controller
 {
-public function focus($taskId)
-{
-    $task = \App\Models\Task::findOrFail($taskId);
 
-    return view('study.focus-session', compact('task'));
-}
-    public function start()
+    // TIMER DARI TASK
+    public function focus(Task $task)
     {
-        return view('study.timer');
+        return view('study.focus-session', compact('task'));
     }
 
+
+    // TIMER DARI NAVBAR
+    public function start()
+    {
+        // timer tanpa task
+        return view('study.focus-session');
+    }
+
+
+    // SIMPAN DATA STUDY SESSION
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -37,4 +42,5 @@ public function focus($taskId)
 
         return redirect()->route('dashboard');
     }
+
 }
