@@ -28,7 +28,6 @@
 
 <a href="/tasks" class="border-b-2 border-white pb-1">Tasks</a>
 
-<!-- TIMER DIPERBAIKI -->
 <a href="/study" class="hover:opacity-80">Timer</a>
 
 <a href="/break" class="hover:opacity-80">Break Time</a>
@@ -48,7 +47,6 @@ Logout
 
 </header>
 
-
 <!-- MAIN -->
 <div class="max-w-7xl mx-auto px-8 py-10">
 
@@ -65,7 +63,6 @@ Add Task +
 </button>
 
 </div>
-
 
 <!-- FORM ADD TASK -->
 <div id="taskForm" class="hidden bg-white rounded-xl shadow p-6 mb-6">
@@ -99,22 +96,21 @@ Save Task
 
 </div>
 
-
 <!-- TASK LIST -->
 <div class="bg-white rounded-2xl shadow p-6">
 
-<div class="grid grid-cols-3 text-gray-500 text-sm font-semibold border-b pb-3 mb-4">
+<div class="grid grid-cols-4 text-gray-500 text-sm font-semibold border-b pb-3 mb-4">
 
 <div>Task</div>
 <div>Status</div>
 <div>Deadline</div>
+<div>Action</div>
 
 </div>
 
-
 @forelse($tasks as $task)
 
-<div class="grid grid-cols-3 items-center py-4 border-b">
+<div class="grid grid-cols-4 items-center py-4 border-b">
 
 <div class="font-medium {{ $task->is_completed ? 'line-through text-gray-400' : '' }}">
 {{ $task->title }}
@@ -148,6 +144,21 @@ Pending
 {{ \Carbon\Carbon::parse($task->deadline)->format('d M Y') }}
 </div>
 
+<div>
+
+@if(!$task->is_completed)
+
+<a href="{{ route('focus.task',$task->id) }}"
+class="bg-emerald-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-emerald-600">
+
+Mulai Belajar
+
+</a>
+
+@endif
+
+</div>
+
 </div>
 
 @empty
@@ -161,7 +172,6 @@ Belum ada task
 </div>
 
 </div>
-
 
 <!-- SCRIPT -->
 <script>

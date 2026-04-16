@@ -55,24 +55,68 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    // LOGOUT
+    /*
+    |--------------------------------------------------------------------------
+    | LOGOUT
+    |--------------------------------------------------------------------------
+    */
+
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    // DASHBOARD
+    /*
+    |--------------------------------------------------------------------------
+    | DASHBOARD
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // MOOD
+    /*
+    |--------------------------------------------------------------------------
+    | MOOD (SMART STUDY)
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/moods', [MoodController::class, 'index'])->name('moods.index');
     Route::post('/moods', [MoodController::class, 'store'])->name('moods.store');
 
-    // STUDY
+    /*
+    |--------------------------------------------------------------------------
+    | START STUDY SESSION (SMART LOGIC)
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post('/start-session', [StudySessionController::class, 'startSession'])
+        ->name('study.startSession');
+
+    /*
+    |--------------------------------------------------------------------------
+    | STUDY TIMER
+    |--------------------------------------------------------------------------
+    */
+    Route::post('/start-session', [StudySessionController::class, 'startSession'])
+    ->name('study.startSession');
+
     Route::get('/study', [StudySessionController::class, 'start'])->name('study.start');
     Route::post('/study', [StudySessionController::class, 'store'])->name('study.store');
 
-    // BREAK
+    Route::get('/focus/{task}', [StudySessionController::class, 'focus'])
+        ->name('focus.task');
+
+    /*
+    |--------------------------------------------------------------------------
+    | BREAK TIME
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/break', [BreakController::class, 'random'])->name('break.random');
 
-    // TASK
+    /*
+    |--------------------------------------------------------------------------
+    | TASK MANAGEMENT
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 
@@ -85,10 +129,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/tasks/{id}/start', [TaskController::class, 'start'])
         ->name('tasks.start');
 
-    Route::get('/focus/{task}', [StudySessionController::class, 'focus'])
-        ->name('focus.task');
+    /*
+    |--------------------------------------------------------------------------
+    | PROGRESS PAGE
+    |--------------------------------------------------------------------------
+    */
 
-    // PROGRESS PAGE
     Route::get('/progress', function () {
         return view('progress.progress');
     })->name('progress');
