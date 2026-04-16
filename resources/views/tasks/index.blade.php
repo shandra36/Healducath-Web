@@ -33,7 +33,7 @@
 
 <a href="/break" class="hover:opacity-80">Break Time</a>
 
-<a href="#">Progress</a>
+<a href="/progress">Progress</a>
 
 </nav>
 

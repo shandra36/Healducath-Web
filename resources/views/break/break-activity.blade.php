@@ -24,11 +24,16 @@
 
 <nav class="flex gap-8 font-medium">
 
-<a href="/dashboard" class="hover:opacity-80">Dashboard</a>
-<a href="/tasks" class="hover:opacity-80">Tugas</a>
-<a href="/study" class="hover:opacity-80">Timer</a>
-<a href="/break" class="border-b-2 border-white pb-1">Istirahat</a>
-<a href="#">Progress</a>
+<a href="{{ route('dashboard') }}" class="hover:opacity-80">Dashboard</a>
+<a href="{{ route('tasks.index') }}" class="hover:opacity-80">Tugas</a>
+<a href="{{ route('study.start') }}" class="hover:opacity-80">Timer</a>
+
+<a href="{{ route('break.random') }}"
+class="border-b-2 border-white pb-1">
+Break Time
+</a>
+
+<a href="{{ route('progress') }}" class="hover:opacity-80">Progress</a>
 
 </nav>
 
@@ -42,7 +47,6 @@ Logout
 </div>
 
 </header>
-
 
 <!-- MAIN -->
 <div class="max-w-6xl mx-auto px-8 py-12">
@@ -83,7 +87,6 @@ Minum air putih
 
 </ul>
 
-
 <!-- TIMER -->
 <div class="mt-8">
 
@@ -96,7 +99,7 @@ class="bg-emerald-500 text-white px-6 py-3 rounded-xl shadow hover:bg-emerald-60
 Mulai Istirahat
 </button>
 
-<a href="/study"
+<a href="{{ route('study.start') }}"
 class="ml-4 text-gray-500 hover:text-emerald-600 font-medium">
 Kembali Belajar
 </a>
@@ -105,11 +108,10 @@ Kembali Belajar
 
 </div>
 
-
 <!-- RIGHT IMAGE -->
 <div class="flex justify-center">
 
-<img 
+<img
 src="https://cdn-icons-png.flaticon.com/512/4327/4327496.png"
 class="w-[260px] md:w-[300px]">
 
@@ -119,8 +121,7 @@ class="w-[260px] md:w-[300px]">
 
 </div>
 
-
-<!-- TIMER SCRIPT -->
+<!-- SCRIPT -->
 <script>
 
 let breakTime = 300;
@@ -153,7 +154,7 @@ clearInterval(interval);
 
 alert("Istirahat selesai! Saatnya kembali fokus 🚀");
 
-window.location.href = "/study";
+window.location.href = "{{ route('study.start') }}";
 
 }
 

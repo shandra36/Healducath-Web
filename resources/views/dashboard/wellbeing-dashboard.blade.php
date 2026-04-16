@@ -52,7 +52,7 @@ Timer
 Break Time
 </a>
 
-<a href="#" class="hover:opacity-80">
+<a href="/progress" class="hover:opacity-80">
 Progress
 </a>
 
