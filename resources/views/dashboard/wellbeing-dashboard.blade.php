@@ -8,34 +8,79 @@
 <title>Dashboard - Healducat</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
-@keyframes float {
-0% { transform: translateY(0px); }
-50% { transform: translateY(-8px); }
-100% { transform: translateY(0px); }
+/* animated gradient background */
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.bg-animate{
+background:linear-gradient(-45deg,#bbf7d0,#d1fae5,#a7f3d0,#bbf7d0);
+background-size:400% 400%;
+animation:gradientMove 15s ease infinite;
+}
+
+/* floating icon */
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0px);}
 }
 
 .animate-float{
-animation: float 3s ease-in-out infinite;
+animation:float 5s ease-in-out infinite;
+}
+
+/* card hover */
+
+.card{
+transition:all .3s ease;
+}
+
+.card:hover{
+transform:translateY(-6px) scale(1.02);
+box-shadow:0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* mood button */
+
+.mood{
+transition:.25s;
+}
+
+.mood:hover{
+transform:scale(1.08);
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
 </style>
 
 </head>
 
-<body class="bg-gradient-to-br from-emerald-50 via-green-50 to-emerald-100 min-h-screen">
+
+<body class="bg-animate min-h-screen">
 
 @if (!auth()->check())
 <script>window.location.href="/login"</script>
 @endif
 
 
+<!-- FLOATING ICON BACKGROUND -->
+
+<div class="absolute top-32 left-10 text-5xl opacity-20 animate-float">📚</div>
+<div class="absolute bottom-20 right-10 text-5xl opacity-20 animate-float">🧠</div>
+
+
+
 <!-- NAVBAR -->
+
 <header class="bg-gradient-to-r from-emerald-600 to-green-500 shadow-lg">
 
 <div class="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center text-white">
@@ -56,10 +101,21 @@ Healducat
 Dashboard
 </a>
 
-<a href="/tasks">Tugas</a>
-<a href="/moods">Timer Belajar</a>
-<a href="/break">Waktu Istirahat</a>
-<a href="/progress">Progres</a>
+<a href="/tasks" class="hover:opacity-80 transition">
+Tugas
+</a>
+
+<a href="/moods" class="hover:opacity-80 transition">
+Timer Belajar
+</a>
+
+<a href="/break" class="hover:opacity-80 transition">
+Waktu Istirahat
+</a>
+
+<a href="/progress" class="hover:opacity-80 transition">
+Progres
+</a>
 
 </nav>
 
@@ -77,11 +133,13 @@ Keluar
 
 
 <!-- MAIN -->
+
 <div class="max-w-7xl mx-auto px-8 py-10 space-y-8">
 
 
 <!-- WELCOME -->
-<div class="bg-white p-6 rounded-2xl shadow-lg flex justify-between items-center">
+
+<div class="bg-white p-6 rounded-2xl shadow-lg flex justify-between items-center card">
 
 <div>
 
@@ -108,7 +166,8 @@ Siap meningkatkan fokus belajar hari ini 🚀
 
 
 <!-- MOOD CHECK -->
-<div class="bg-white p-6 rounded-2xl shadow">
+
+<div class="bg-white p-6 rounded-2xl shadow card">
 
 <h3 class="font-semibold mb-4 text-lg">
 Bagaimana kondisi belajar kamu hari ini?
@@ -120,17 +179,17 @@ Bagaimana kondisi belajar kamu hari ini?
 <div class="flex gap-4">
 
 <button type="submit" name="mood" value="semangat"
-class="px-6 py-3 rounded-xl bg-green-100 hover:bg-green-200 transition">
+class="mood px-6 py-3 rounded-xl bg-green-100">
 🙂 Sangat Semangat
 </button>
 
 <button type="submit" name="mood" value="biasa"
-class="px-6 py-3 rounded-xl bg-yellow-100 hover:bg-yellow-200 transition">
+class="mood px-6 py-3 rounded-xl bg-yellow-100">
 😐 Biasa Saja
 </button>
 
 <button type="submit" name="mood" value="lelah"
-class="px-6 py-3 rounded-xl bg-blue-100 hover:bg-blue-200 transition">
+class="mood px-6 py-3 rounded-xl bg-blue-100">
 😴 Sedikit Lelah
 </button>
 
@@ -143,9 +202,10 @@ class="px-6 py-3 rounded-xl bg-blue-100 hover:bg-blue-200 transition">
 
 
 <!-- STATISTIK -->
+
 <div class="grid md:grid-cols-3 gap-6">
 
-<div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl hover:-translate-y-1 transition">
+<div class="bg-white p-6 rounded-2xl shadow card">
 
 <h3 class="text-gray-500">Waktu Belajar</h3>
 
@@ -160,8 +220,7 @@ Total belajar
 </div>
 
 
-
-<div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl hover:-translate-y-1 transition">
+<div class="bg-white p-6 rounded-2xl shadow card">
 
 <h3 class="text-gray-500">Tugas Selesai</h3>
 
@@ -176,8 +235,7 @@ Total sesi belajar
 </div>
 
 
-
-<div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl hover:-translate-y-1 transition">
+<div class="bg-white p-6 rounded-2xl shadow card">
 
 <h3 class="text-gray-500">Tingkat Fokus</h3>
 
@@ -199,8 +257,9 @@ style="width: {{ $avgStudy ? round($avgStudy) : 0 }}%">
 
 
 
-<!-- TUGAS HARI INI -->
-<div class="bg-white rounded-2xl shadow p-6">
+<!-- TUGAS -->
+
+<div class="bg-white rounded-2xl shadow p-6 card">
 
 <div class="flex justify-between items-center mb-5">
 
@@ -210,10 +269,13 @@ Tugas Hari Ini
 
 <a href="/tasks"
 class="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition">
+
 Tambah Tugas +
+
 </a>
 
 </div>
+
 
 <div class="space-y-3">
 
@@ -233,9 +295,11 @@ Deadline: {{ $task->deadline }}
 
 </div>
 
-<a href="/timer"
+<a href="/moods"
 class="bg-emerald-500 text-white px-3 py-1 rounded-lg text-sm hover:scale-105 transition">
+
 Mulai
+
 </a>
 
 </div>
@@ -255,7 +319,8 @@ Tidak ada tugas hari ini 🎉
 
 
 <!-- QUICK STUDY -->
-<div class="bg-emerald-500 text-white p-6 rounded-2xl shadow flex justify-between items-center">
+
+<div class="bg-emerald-500 text-white p-6 rounded-2xl shadow flex justify-between items-center card">
 
 <div>
 
@@ -269,17 +334,20 @@ Mulai sesi fokus selama 25 menit
 
 </div>
 
-<a href="/timer"
+<a href="/moods"
 class="bg-white text-emerald-600 px-4 py-2 rounded-lg font-semibold hover:scale-105 transition">
+
 Mulai Belajar
+
 </a>
 
 </div>
 
 
 
-<!-- GRAFIK PROGRES -->
-<div class="bg-white p-6 rounded-2xl shadow">
+<!-- CHART -->
+
+<div class="bg-white p-6 rounded-2xl shadow card">
 
 <h3 class="text-lg font-semibold mb-4">
 Progres Belajar Mingguan
@@ -289,62 +357,42 @@ Progres Belajar Mingguan
 
 </div>
 
-
 </div>
 
 
 
-<!-- CHART SCRIPT -->
 <script>
 
 const ctx = document.getElementById('studyChart');
 
-new Chart(ctx, {
+new Chart(ctx,{
 
-type: 'line',
+type:'line',
 
-data: {
-
-labels: ['Sen','Sel','Rab','Kam','Jum','Sab','Min'],
-
-datasets: [{
-
-label: 'Durasi Belajar (menit)',
-
-data: [30,45,60,20,90,50,70],
-
-borderColor: '#10b981',
-
-backgroundColor: 'rgba(16,185,129,0.2)',
-
-tension: 0.4,
-
-fill: true
-
+data:{
+labels:['Sen','Sel','Rab','Kam','Jum','Sab','Min'],
+datasets:[{
+data:[30,45,60,20,90,50,70],
+borderColor:'#10b981',
+backgroundColor:'rgba(16,185,129,0.2)',
+tension:0.4,
+fill:true
 }]
-
 },
 
-options: {
-
+options:{
 responsive:true,
-
-plugins:{
-legend:{display:false}
+plugins:{legend:{display:false}},
+animation:{
+duration:1500,
+easing:'easeOutQuart'
 },
-
-scales:{
-y:{
-beginAtZero:true
-}
-}
-
+scales:{y:{beginAtZero:true}}
 }
 
 });
 
 </script>
-
 
 </body>
 </html>
