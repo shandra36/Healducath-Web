@@ -18,19 +18,26 @@ min-height:100vh;
 
 .navbar{
 background:#1fa463;
-padding:18px 40px;
+padding:15px 20px;
 display:flex;
+flex-wrap:wrap;
 justify-content:space-between;
 align-items:center;
 color:white;
-box-shadow:0 4px 20px rgba(0,0,0,0.1);
+gap:10px;
+}
+
+.nav-links{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
 }
 
 .nav-links a{
-margin:0 12px;
 text-decoration:none;
 color:white;
 font-weight:500;
+font-size:14px;
 }
 
 /* CONTAINER */
@@ -38,59 +45,59 @@ font-weight:500;
 .container{
 width:90%;
 max-width:1200px;
-margin:40px auto;
+margin:20px auto;
 }
 
 /* WELCOME CARD */
 
 .welcome-card{
 background:white;
-padding:25px;
+padding:20px;
 border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-margin-bottom:25px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+margin-bottom:20px;
 }
 
 /* GRID */
 
 .dashboard-grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-margin-bottom:25px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
 }
 
 /* CARD */
 
 .card{
 background:white;
-padding:25px;
+padding:20px;
 border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-5px);
-box-shadow:0 15px 35px rgba(0,0,0,0.1);
+transform:translateY(-4px);
+box-shadow:0 12px 25px rgba(0,0,0,0.1);
 }
 
-/* NUMBER STYLE */
+/* NUMBER */
 
 .stat-number{
-font-size:32px;
+font-size:26px;
 font-weight:600;
 color:#1fa463;
-margin-top:10px;
+margin-top:8px;
 }
 
 /* TASK BOX */
 
 .task-box{
 background:white;
-padding:25px;
+padding:20px;
 border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
 /* BUTTON */
@@ -99,14 +106,35 @@ box-shadow:0 10px 25px rgba(0,0,0,0.08);
 background:#1fa463;
 color:white;
 border:none;
-padding:10px 18px;
+padding:8px 14px;
 border-radius:8px;
 cursor:pointer;
 font-weight:500;
+font-size:14px;
 }
 
 .btn:hover{
 background:#168d53;
+}
+
+/* MOBILE ADJUSTMENT */
+
+@media (max-width:768px){
+
+.navbar{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.nav-links{
+width:100%;
+justify-content:flex-start;
+}
+
+.stat-number{
+font-size:22px;
+}
+
 }
 
 </style>
