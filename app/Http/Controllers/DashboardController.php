@@ -21,17 +21,37 @@ class DashboardController extends Controller
         $avgStudy = StudySession::where('user_id', $user->id)
             ->avg('study_duration');
 
-        // 🔥 FIX UTAMA (INI YANG KURANG)
         $todayTasks = Task::where('user_id', $user->id)
             ->whereDate('deadline', Carbon::today())
             ->where('is_completed', false)
             ->get();
+            
+        $weekly = StudySession::where('user_id', $user->id)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->format('D');
+            });
+
+        $days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+        $chartData = [];
+
+        foreach ($days as $day) {
+            $chartData[] = isset($weekly[$day])
+                ? $weekly[$day]->sum('study_duration')
+                : 0;
+        }
 
         return view('dashboard.wellbeing-dashboard', compact(
             'totalSessions',
             'totalStudyTime',
             'avgStudy',
-            'todayTasks'
+            'todayTasks',
+            'chartData'
         ));
     }
 }

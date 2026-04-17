@@ -59,7 +59,7 @@ background:linear-gradient(135deg,#e6f7f1,#cdeee5);
 
 <header class="bg-gradient-to-r from-emerald-600 to-green-500 shadow-lg">
 
-<div class="max-w-7xl mx-auto px-8 py-3 flex justify-between items-center text-white">
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-3 flex flex-wrap gap-3 justify-between items-center text-white">
 
 <div class="flex items-center gap-3">
 
@@ -72,8 +72,8 @@ Healducat
 
 </div>
 
-<nav class="flex gap-8 font-medium text-sm">
-
+<nav class="flex flex-wrap gap-4 text-xs md:text-sm font-medium">
+    
 <a href="/dashboard" class="border-b-2 border-white pb-1">
 Dashboard
 </a>
@@ -108,11 +108,11 @@ Logout
 
 <section class="hero-bg">
 
-<div class="max-w-7xl mx-auto px-8 py-16 grid md:grid-cols-2 items-center gap-10">
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-10 md:py-16 grid md:grid-cols-2 items-center gap-8">
 
 <div>
 
-<h1 class="text-4xl md:text-5xl font-bold text-emerald-700 leading-tight">
+<h1 class="text-2xl md:text-3xl font-bold text-emerald-700 leading-tight">
 Belajar Lebih Fokus <br>
 & Produktif
 </h1>
@@ -144,7 +144,7 @@ Lihat Progress
 <div class="flex justify-center">
 
 <img src="{{ asset('images/dashboard.png') }}"
-class="w-[420px]">
+class="w-full max-w-xs md:max-w-md">
 
 </div>
 
@@ -153,8 +153,7 @@ class="w-[420px]">
 </section>
 
 
-<div class="max-w-7xl mx-auto px-8 py-10 grid lg:grid-cols-3 gap-6">
-
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
 <div class="lg:col-span-2 space-y-6">
 
@@ -168,7 +167,7 @@ Bagaimana kondisi belajar kamu hari ini?
 <form action="{{ route('study.startSession') }}" method="POST">
 @csrf
 
-<div class="grid grid-cols-3 gap-3">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
 
 <button type="submit" name="mood" value="semangat"
 class="mood px-4 py-3 rounded-xl bg-green-100 text-sm">
@@ -211,7 +210,7 @@ Tambah +
 
 @forelse($todayTasks ?? [] as $task)
 
-<div class="p-4 rounded-xl bg-gray-50 hover:bg-emerald-50 transition flex justify-between items-center">
+<div class="p-4 rounded-xl bg-gray-50 hover:bg-emerald-50 transition flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
 
 <div>
 
@@ -319,7 +318,7 @@ type:'line',
 data:{
 labels:['Sen','Sel','Rab','Kam','Jum','Sab','Min'],
 datasets:[{
-data:[30,45,60,20,90,50,70],
+data: {!! json_encode($chartData) !!},
 borderColor:'#10b981',
 backgroundColor:'rgba(16,185,129,0.2)',
 tension:0.4,
