@@ -85,7 +85,8 @@ font-size:36px;
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-3 flex flex-wrap gap-3 justify-between items-center text-white">
 
 <div class="flex items-center gap-2">
-<span class="text-xl md:text-2xl animate-pulse">💚</span>
+<img src="{{ asset('images/healducat.jpeg') }}"
+class="w-9 h-9 rounded-lg shadow">
 <h1 class="text-lg md:text-xl font-bold">Healducat</h1>
 </div>
 
