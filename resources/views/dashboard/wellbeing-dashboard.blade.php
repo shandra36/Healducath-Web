@@ -78,7 +78,7 @@ Healducat
 Dashboard
 </a>
 
-<a href="/tasks">Tugas</a>
+<a href="/tasks">Tasks</a>
 
 <a href="{{ route('study.start') }}">
 Timer
